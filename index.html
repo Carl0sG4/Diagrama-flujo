@@ -125,12 +125,12 @@
             <script>
                 function descargarTodos() {
                     const archivos = [
-                        { href: 'Paginaprincipal.html', nombre: 'Paginaprincipal.html' },
-                        { href: 'SinIA.html',           nombre: 'SinIA.html' },
-                        { href: 'ConIA.html',           nombre: 'ConIA.html' }
+                        { href: 'index.html', nombre: 'index.html' },
+                        { href: 'SinIA.html', nombre: 'SinIA.html' },
+                        { href: 'ConIA.html', nombre: 'ConIA.html' }
                     ];
-                    archivos.forEach(function(archivo, i) {
-                        setTimeout(function() {
+                    archivos.forEach(function (archivo, i) {
+                        setTimeout(function () {
                             const a = document.createElement('a');
                             a.href = archivo.href;
                             a.download = archivo.nombre;
