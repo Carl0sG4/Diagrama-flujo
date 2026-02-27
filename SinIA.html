@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Estudio Tradicional (Sin IA)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons para iconografía -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Mermaid.js para renderizar el diagrama de flujo -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        /* Estilos personalizados para el contenedor del diagrama y el zoom */
+        #diagram-container {
+            cursor: grab;
+            overflow: auto;
+            position: relative;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        #diagram-container:active {
+            cursor: grabbing;
+        }
+
+        #mermaid-wrapper {
+            transform-origin: top center;
+            transition: transform 0.2s ease-out;
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+        }
+
+        /* Ajustes específicos de Mermaid para mejor legibilidad */
+        .mermaid svg {
+            max-width: none !important;
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Custom scrollbar para la barra lateral */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col font-sans overflow-hidden">
+
+    <!-- Header -->
+    <header
+        class="bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row justify-between items-center shadow-sm z-10 shrink-0">
+        <a href="Paginaprincipal.html"
+            class="flex items-center gap-3 mb-2 sm:mb-0 hover:opacity-75 transition-opacity duration-200"
+            title="Volver a la página principal">
+            <div class="bg-blue-600 text-white p-2 rounded-lg">
+                <i class="ph ph-git-merge text-2xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 leading-tight">Proceso de Estudio Tradicional (Sin IA)</h1>
+                <p class="text-xs text-slate-500 font-medium">Versión 1.0 • Módulo: Digitalización aplicada a los
+                    sectores productivos</p>
+            </div>
+        </a>
+        <div class="text-right flex items-center gap-2 bg-slate-100 py-1.5 px-3 rounded-full border border-slate-200">
+            <i class="ph ph-user-circle text-slate-500 text-lg"></i>
+            <span class="text-sm font-semibold text-slate-700">Autor: CARLOS GUARACA NAGUA (RA4_A03 - Aplicar la
+                IA)</span>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+        <!-- Left Area: Diagram Viewer -->
+        <section class="flex-1 flex flex-col relative border-r border-slate-200 min-h-[50vh] lg:min-h-0 bg-slate-50">
+
+            <!-- Toolbar Overlay -->
+            <div
+                class="absolute top-4 right-4 z-10 flex flex-col gap-2 bg-white/90 backdrop-blur p-1.5 rounded-xl shadow-md border border-slate-200">
+                <button onclick="zoomIn()"
+                    class="p-2 text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    title="Acercar">
+                    <i class="ph ph-magnifying-glass-plus text-xl"></i>
+                </button>
+                <div class="h-px bg-slate-200 w-full"></div>
+                <button onclick="zoomOut()"
+                    class="p-2 text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    title="Alejar">
+                    <i class="ph ph-magnifying-glass-minus text-xl"></i>
+                </button>
+                <div class="h-px bg-slate-200 w-full"></div>
+                <button onclick="resetZoom()"
+                    class="p-2 text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    title="Restablecer vista">
+                    <i class="ph ph-arrows-out-simple text-xl"></i>
+                </button>
+            </div>
+
+            <div
+                class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm border border-slate-200 text-sm font-medium text-slate-600 flex items-center gap-2">
+                <i class="ph ph-info text-blue-500"></i>
+                Arrastra para mover el diagrama
+            </div>
+
+            <!-- Flowchart Container -->
+            <div id="diagram-container" class="w-full h-full">
+                <div id="mermaid-wrapper">
+                    <div class="mermaid" id="mermaid-graph">
+                        %%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'ui-sans-serif, system-ui,
+                        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                        }}}%%
+                        graph TD
+                        %% Nodos
+                        N01([INICIO])
+                        N02[/Recibir tema o materia a estudiar/]
+                        N03[Revisar los objetivos de aprendizaje]
+                        N04[Preparar el material de estudio]
+                        N05{¿Está todo el material<br>disponible?}
+                        N05a[Buscar o conseguir<br>el material que falta]
+                        N06[Realizar lectura<br>comprensiva inicial del tema]
+                        N07{¿Se ha comprendido<br>la lectura general?}
+                        N07a[Releer el apartado<br>con dificultad]
+                        N08[Subrayar ideas<br>principales y secundarias]
+                        N09[Elaborar apuntes y<br>resúmenes a mano]
+                        N10[Seleccionar y aplicar<br>método de estudio]
+                        N11[Estudiar en profundidad<br>el primer bloque]
+                        N12{¿Se ha aprendido<br>correctamente el bloque?}
+                        N12a[Identificar los puntos<br>no aprendidos y repasar]
+                        N13[Realizar un descanso<br>activo de 10 minutos]
+                        N14{¿Quedan más bloques<br>por estudiar?}
+                        N15[Pasar al siguiente<br>bloque de contenido]
+                        N16[Realizar revisión global<br>de todo el contenido]
+                        N17[Ejecutar autoevaluación]
+                        N18[/Registrar resultados<br>de la autoevaluación/]
+                        N19{¿Ha superado la<br>autoevaluación con éxito?}
+                        N19a[Reforzar los puntos<br>fallados]
+                        N20[Organizar y guardar<br>apuntes y material]
+                        N21[Planificar próxima<br>sesión de repaso]
+                        N22[/Resultado: Tema estudiado<br>y consolidado/]
+                        N23([FIN])
+
+                        %% Conexiones principales
+                        N01 --> N02
+                        N02 --> N03
+                        N03 --> N04
+                        N04 --> N05
+                        N05 -- SÍ --> N06
+                        N06 --> N07
+                        N07 -- SÍ --> N08
+                        N08 --> N09
+                        N09 --> N10
+                        N10 --> N11
+                        N11 --> N12
+                        N12 -- SÍ --> N13
+                        N13 --> N14
+                        N14 -- NO --> N16
+                        N16 --> N17
+                        N17 --> N18
+                        N18 --> N19
+                        N19 -- SÍ --> N20
+                        N20 --> N21
+                        N21 --> N22
+                        N22 --> N23
+
+                        %% Conexiones de Bucles (NO)
+                        N05 -- NO --> N05a
+                        N05a -.-> N05
+
+                        N07 -- NO --> N07a
+                        N07a -.-> N07
+
+                        N12 -- NO --> N12a
+                        N12a -.-> N11
+
+                        N14 -- SÍ --> N15
+                        N15 -.-> N11
+
+                        N19 -- NO --> N19a
+                        N19a -.-> N11
+
+                        %% Estilos de Nodos (basados en el JSON provisto)
+                        classDef oval fill:#2E86AB,stroke:#174a61,stroke-width:2px,color:#fff,rx:20,ry:20;
+                        classDef paral fill:#A8DADC,stroke:#457B9D,stroke-width:2px,color:#1d3557;
+                        classDef rect fill:#457B9D,stroke:#1d3557,stroke-width:2px,color:#fff,rx:5,ry:5;
+                        classDef rombo fill:#E63946,stroke:#851c24,stroke-width:2px,color:#fff;
+                        classDef loop fill:#F4A261,stroke:#a6612b,stroke-width:2px,color:#111,rx:5,ry:5;
+                        classDef break fill:#2A9D8F,stroke:#15574f,stroke-width:2px,color:#fff,rx:5,ry:5;
+
+                        %% Asignación de clases
+                        class N01,N23 oval;
+                        class N02,N18,N22 paral;
+                        class N03,N04,N06,N08,N09,N10,N11,N15,N16,N17,N20,N21 rect;
+                        class N05,N07,N12,N14,N19 rombo;
+                        class N05a,N07a,N12a,N19a loop;
+                        class N13 break;
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Area: Details & Stats Sidebar -->
+        <aside class="w-full lg:w-96 bg-white overflow-y-auto shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] z-10">
+            <div class="p-6 space-y-8">
+
+                <!-- Descripción -->
+                <div>
+                    <h2 class="text-sm uppercase tracking-wider font-bold text-slate-400 mb-2 flex items-center gap-2">
+                        <i class="ph ph-text-align-left text-lg"></i> Descripción
+                    </h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Diagrama de flujo detallado del proceso de estudio convencional siguiendo la simbología estándar
+                        ISO 5807. Representa el flujo completo desde la preparación inicial hasta la consolidación del
+                        aprendizaje, incluyendo decisiones, bucles de repaso y descansos.
+                    </p>
+                </div>
+
+                <!-- Simbología y Leyenda -->
+                <div>
+                    <h2 class="text-sm uppercase tracking-wider font-bold text-slate-400 mb-3 flex items-center gap-2">
+                        <i class="ph ph-palette text-lg"></i> Simbología y Leyenda
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm">
+                            <div
+                                class="w-8 h-5 rounded-full bg-[#2E86AB] border border-[#174a61] shadow-sm flex-shrink-0">
+                            </div>
+                            <span class="text-slate-700"><strong>Óvalo:</strong> Inicio o Fin del proceso</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-8 h-5 rounded bg-[#457B9D] border border-[#1d3557] shadow-sm flex-shrink-0">
+                            </div>
+                            <span class="text-slate-700"><strong>Rectángulo:</strong> Proceso o acción concreta</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div
+                                class="w-8 h-5 transform rotate-45 bg-[#E63946] border border-[#851c24] shadow-sm flex-shrink-0 mx-1 w-[20px] h-[20px]">
+                            </div>
+                            <span class="text-slate-700 pl-1"><strong>Rombo:</strong> Decisión con salida SÍ o NO</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div
+                                class="w-8 h-5 bg-[#A8DADC] border border-[#457B9D] shadow-sm flex-shrink-0 skew-x-[-15deg] ml-1">
+                            </div>
+                            <span class="text-slate-700"><strong>Paralelogramo:</strong> Entrada/Salida de datos</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-8 h-5 rounded bg-[#F4A261] border border-[#a6612b] shadow-sm flex-shrink-0">
+                            </div>
+                            <span class="text-slate-700"><strong>Acción de Refuerzo:</strong> Tareas derivadas de un
+                                "NO" en los bucles.</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <div class="w-8 h-5 rounded bg-[#2A9D8F] border border-[#15574f] shadow-sm flex-shrink-0">
+                            </div>
+                            <span class="text-slate-700"><strong>Descanso:</strong> Pausa activa (Técnica
+                                Pomodoro).</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bucles Identificados -->
+                <div>
+                    <h2 class="text-sm uppercase tracking-wider font-bold text-slate-400 mb-3 flex items-center gap-2">
+                        <i class="ph ph-arrows-clockwise text-lg"></i> Bucles Críticos (5)
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                            <h3 class="text-sm font-bold text-orange-800">1. Material Incompleto (N05)</h3>
+                            <p class="text-xs text-orange-700 mt-1">Se repite hasta conseguir todo el material.</p>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                            <h3 class="text-sm font-bold text-orange-800">2. Comprensión Lectora (N07)</h3>
+                            <p class="text-xs text-orange-700 mt-1">Se relee el apartado hasta entender el contenido
+                                general.</p>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                            <h3 class="text-sm font-bold text-orange-800">3. Aprendizaje por Bloques (N12)</h3>
+                            <p class="text-xs text-orange-700 mt-1">Repaso intensivo del bloque hasta memorizarlo
+                                correctamente.</p>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                            <h3 class="text-sm font-bold text-orange-800">4. Avance por Bloques (N14)</h3>
+                            <p class="text-xs text-orange-700 mt-1">Retorno iterativo para estudiar el siguiente
+                                apartado del tema.</p>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                            <h3 class="text-sm font-bold text-orange-800">5. Autoevaluación y Refuerzo (N19)</h3>
+                            <p class="text-xs text-orange-700 mt-1">Si la prueba es fallida, se refuerzan conceptos
+                                erróneos y se repite el proceso de estudio.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas -->
+                <div>
+                    <h2 class="text-sm uppercase tracking-wider font-bold text-slate-400 mb-3 flex items-center gap-2">
+                        <i class="ph ph-chart-bar text-lg"></i> Estadísticas del Proceso
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-center">
+                            <span class="block text-2xl font-black text-slate-700">23</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-500">Nodos Totales</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-center">
+                            <span class="block text-2xl font-black text-blue-600">13</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-500">Procesos</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-center col-span-2">
+                            <span class="block text-2xl font-black text-red-500">5</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-500">Decisiones</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        // Inicializar Mermaid.js
+        mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose',
+            theme: 'default',
+            flowchart: {
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Lógica de Zoom y Paneo para el contenedor del diagrama
+        let currentZoom = 1;
+        const zoomStep = 0.15;
+        const maxZoom = 2.5;
+        const minZoom = 0.4;
+
+        const wrapper = document.getElementById('mermaid-wrapper');
+        const container = document.getElementById('diagram-container');
+
+        function updateZoom() {
+            wrapper.style.transform = `scale(${currentZoom})`;
+        }
+
+        function zoomIn() {
+            if (currentZoom < maxZoom) {
+                currentZoom += zoomStep;
+                updateZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > minZoom) {
+                currentZoom -= zoomStep;
+                updateZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            updateZoom();
+            container.scrollTo({ top: 0, left: container.scrollWidth / 2 - container.clientWidth / 2, behavior: 'smooth' });
+        }
+
+        // Lógica de arrastre (Pan) con el ratón
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            container.classList.add('cursor-grabbing');
+            startX = e.pageX - container.offsetLeft;
+            startY = e.pageY - container.offsetTop;
+            scrollLeft = container.scrollLeft;
+            scrollTop = container.scrollTop;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isDragging = false;
+            container.classList.remove('cursor-grabbing');
+        });
+
+        container.addEventListener('mouseup', () => {
+            isDragging = false;
+            container.classList.remove('cursor-grabbing');
+        });
+
+        container.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const y = e.pageY - container.offsetTop;
+            const walkX = (x - startX) * 1.5; // Velocidad de arrastre
+            const walkY = (y - startY) * 1.5;
+            container.scrollLeft = scrollLeft - walkX;
+            container.scrollTop = scrollTop - walkY;
+        });
+
+        // Centrar el gráfico al cargar (pequeño retraso para asegurar que Mermaid termine de renderizar)
+        setTimeout(() => {
+            container.scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
+        }, 500);
+
+    </script>
+</body>
+
+</html>
